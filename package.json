@@ -1,0 +1,20 @@
+{
+  "name": "tenki",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "JSONStream": "^1.2.1",
+    "args": "^2.1.0",
+    "devtron": "^1.4.0",
+    "electron-packager": "^8.2.0",
+    "gulp": "^3.9.1"
+  },
+  "dependencies": {
+    "cheerio-httpcli": "^0.6.9",
+    "zepto": "^1.2.0"
+  }
+}

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Sample</title>
+    <style>
+        html {
+            height: 100%;
+            width: 100%
+        }
+
+        body {
+            /*-webkit-app-region: drag;*/
+            /*-webkit-user-select: none;*/
+            margin: 0;
+            height: 100%;
+            width: 100%;
+            opacity: 0.8;
+        }
+
+        #main {
+            height: 100%;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            color: black;
+        }
+    </style>
+
+    <script>
+        function weather_image(_weather) {
+
+            var weather = _weather.split('のち');
+            console.log(weather);
+            var weather_tag = "";
+            if (weather.length >= 2) {
+                if (weather[0].match(/晴/)) {
+                    weather_tag += "<img src='images/sun64.png'>";
+                } else if (weather[0].match(/雪/)) {
+                    weather_tag += "<img src='images/snow64.png'>";
+                } else if (weather[0].match(/曇/)) {
+                    weather_tag += "<img src='images/cloud64.png'>";
+                } else if (weather[0].match(/雨/)) {
+                    weather_tag += "<img src='images/rain64.png'>";
+                }
+                if (weather[1].match(/晴/)) {
+                    weather_tag += "<img src='images/sun64.png'>";
+                } else if (weather[1].match(/雪/)) {
+                    weather_tag += "<img src='images/snow64.png'>";
+                } else if (weather[1].match(/曇/)) {
+                    weather_tag += "<img src='images/cloud64.png'>";
+                } else if (weather[1].match(/雨/)) {
+                    weather_tag += "<img src='images/rain64.png'>";
+                }
+            } else {
+                if (weather[0].match(/晴/)) {
+                    weather_tag = "<img src='images/sun64.png'>";
+                } else if (weather[0].match(/雪/)) {
+                    weather_tag = "<img src='images/snow64.png'>";
+                } else if (weather[0].match(/曇/)) {
+                    weather_tag = "<img src='images/cloud64.png'>";
+                } else if (weather[0].match(/雨/)) {
+                    weather_tag = "<img src='images/rain64.png'>";
+                }
+            }
+            return weather_tag;
+        }
+        Object.prototype.document = window.document;
+        Object.prototype.location = window.location;
+        var $ = require('zepto').$;
+        delete(Object.prototype.document);
+        delete(Object.prototype.location);
+
+
+        //require('remote').getGlobal('sharedObject').today
+        const remote = require('electron').remote;
+        $(function () {
+            // 読み込み後に実行する処理
+            var today = remote.getGlobal('sharedObject').today;
+            var tommorow = remote.getGlobal('sharedObject').tommorow;
+            for (key in today) {
+                $('#today').append(today[key].toString() + '/');
+            }
+            for (key in tommorow) {
+                $('#tommorow').append(tommorow[key].toString() + '/');
+            }
+
+
+            $($(".today td").get().reverse()).each(function (i) {
+                $(this).text(today['percent'].reverse()[i]);
+            });
+            $('.tommorow td').each(function (i) {
+                $(this).text(tommorow['percent'][i]);
+            })
+
+            $('div.today').html(weather_image(today['weather']));
+            $('div.tommorow').html(weather_image(tommorow['weather']));
+            $('div.today').append(today['max'].toString() + '/' + today['min'].toString());
+            $('div.tommorow').append(tommorow['max'].toString() + '/' + tommorow['min'].toString());
+
+
+        });
+    </script>
+    <style>
+        table {
+            margin-left: auto;
+            margin-right: auto;
+        }
+        div#main {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div id='main'>
+    <div class="today"></div>
+
+    <table>
+        <tr>
+            <td>00-06</td>
+            <td>06-12</td>
+            <td>12-18</td>
+            <td>18-24</td>
+        </tr>
+        <tr class="today">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+
+    <div class="tommorow"></div>
+    <table>
+        <tr>
+            <td>00-06</td>
+            <td>06-12</td>
+            <td>12-18</td>
+            <td>18-24</td>
+        </tr>
+        <tr class="tommorow">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+
+</div>
+</body>
+</html>
+
